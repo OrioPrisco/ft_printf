@@ -13,6 +13,8 @@
 #ifndef FTPRINTF_H
 # define FTPRINTF_H
 
+ssize_t	ft_pad(char c, size_t repeat);
+
 typedef enum e_flags
 {
 	FLAG_NONE			= 0,
