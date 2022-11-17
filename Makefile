@@ -11,27 +11,27 @@
 # **************************************************************************** #
 
 NAME				= libftprintf.a
-SRC					= foo.c
+SRC					= parse.c
 SRC_FOLDER			= srcs/
-HEADERS_FOLDER		= includes/;libft/
+HEADERS_FOLDER		=	includes/\
+						libft/
 OBJS				= $(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
 OBJ_FOLDER			= objs/
 CC					= cc
 CFLAGS				= -Wall -Wextra -Werror
 LIBFT_PATH			= libft/
-LIBFT				= libft.a
+LIBFT				= $(LIBFT_PATH)libft.a
 
 all: $(NAME)
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
-	cp $(LIBFT_PATH)$(LIBFT) $(LIBFT)
 
-$(NAME): $(OBJS) libft.a
+$(NAME): $(OBJS) $(LIBFT)
 	ar rcs $(NAME) $(OBJS)
 
 $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
-	$(CC) -c $(CFLAGS) -I$(HEADERS_FOLDER) -L$(LIBFT_PATH) $< -o $@
+	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) -L$(LIBFT_PATH) $< -o $@ -lft
 
 clean:
 	rm -f $(OBJS)
