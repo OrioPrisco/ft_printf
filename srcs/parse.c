@@ -18,11 +18,12 @@
 static const char	*g_flags = ".0 #+-";
 static const char	*g_flags_num = ". #+-0123456789";
 static const char	*g_conversions = "cspdiuxX%";
-int	parse(char *str, size_t n, va_list *ap);
+int	check_format(char *str, size_t n, va_list *ap);
+int	parse(char *str, va_list *ap, t_flags flags);
 
 //returns 0 on success
 //1 on bad conversion
-// for the rest look at parse
+// for the rest look at heck_format
 int	find_parseable(char *str, va_list *ap)
 {
 	size_t	n;
@@ -37,7 +38,7 @@ int	find_parseable(char *str, va_list *ap)
 		n++;
 	if (!ft_strchr(g_conversions, begin[n]))
 		return (1);
-	return (parse(begin, n, ap));
+	return (check_format(begin, n, ap));
 }
 
 t_flags	char_to_flag(char c)
@@ -64,7 +65,7 @@ t_flags	char_to_flag(char c)
 // 0 success
 // 2 on bad format string
 // this needs to change, has to be bytes written
-int	parse(char *str, size_t n, va_list *ap)
+int	check_format(char *str, size_t n, va_list *ap)
 {
 	size_t	i;
 	t_flags	flags;
@@ -82,7 +83,26 @@ int	parse(char *str, size_t n, va_list *ap)
 	}
 	if (!ft_strchr(g_flags, str[i]))
 		return (2);
-	(void)n;
 	(void)ap;
+	return (0);
+}
+
+int	parse(char *str, va_list *ap, t_flags flags)
+{
+	int		field_width;
+	int		precision;
+	char	*s;
+
+	field_width = 0;
+	precision = 0;
+	if (flags & FLAG_FIELD_WIDTH)
+	{
+		s = ft_strchr(str, '.') - 1;
+		while (ft_isdigit(*s))
+			s--;
+		field_width = ft_atoi(++s);
+	}
+	if (flags & FLAG_PRECISION)
+		precision = ft_atoi(ft_strchr(s, '.') + 1);
 	return (0);
 }
