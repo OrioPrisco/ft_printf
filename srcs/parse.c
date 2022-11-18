@@ -15,10 +15,6 @@
 #include <unistd.h>
 #include <ftprintf.h>
 
-//'.' has to be the first char because of implentation details
-static const char		*g_flags = ".0 #+-";
-static const char		*g_flags_num = ". #+-0123456789";
-static const char		*g_conversions = "cspdiuxX%";
 static ssize_t (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {
 	&ft_printfchar
 };
@@ -77,8 +73,8 @@ static int	parse(char *str, va_list *ap, t_flags flags, char conversion)
 		field_width = ft_atoi(++s);
 	}
 	if (flags & FLAG_PRECISION)
-		precision = ft_atoi(ft_strchr(s, '.') + 1);
-	return (g_print_funcs[g_conversions - ft_strchr(g_conversions, conversion)]
+		precision = ft_atoi(ft_strchr(str, '.') + 1);
+	return (g_print_funcs[CONVERSIONS - ft_strchr(CONVERSIONS, conversion)]
 		(flags, precision, field_width, ap));
 }
 
@@ -95,14 +91,17 @@ static int	check_format(char *str, size_t n, va_list *ap)
 	i = 1;
 	while (i < n)
 	{
-		while (i < n && ft_strchr(g_flags + 1, str[i]))
-			flags += char_to_flag(str[i++]);
+		while (i < n && ft_strchr(&FLAGS[1], str[i]))
+			flags |= char_to_flag(str[i++]);
 		while (i < n && ft_isdigit(str[i]))
-			flags += char_to_flag(str[i++]);
-		if (i < n && str[n] == '.')
-			flags += char_to_flag(str[i++]);
+		{
+			flags |= FLAG_FIELD_WIDTH;
+			i++;
+		}
+		if (i < n && str[i] == '.')
+			flags |= char_to_flag(str[i++]);
 	}
-	if (!ft_strchr(g_conversions, str[i]))
+	if (!ft_strchr(CONVERSIONS, str[i]))
 		return (0);
 	return (parse(str, ap, flags, str[i]));
 }
@@ -118,9 +117,9 @@ int	find_parseable(char *str, va_list *ap)
 	if (!*begin)
 		return (begin - str);
 	n = 1;
-	while (begin[n] && ft_strchr(g_flags_num, begin[n]))
+	while (begin[n] && ft_strchr(FLAGS_NUM, begin[n]))
 		n++;
-	if (!ft_strchr(g_conversions, begin[n]))
+	if (!ft_strchr(CONVERSIONS, begin[n]))
 	{
 		return (begin - str + write(1, begin, n));
 	}

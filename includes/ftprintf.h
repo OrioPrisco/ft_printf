@@ -16,6 +16,10 @@
 # include <sys/types.h>
 # include <stdarg.h>
 
+# define FLAGS ".0 #+-"
+# define FLAGS_NUM ". #+-0123456789"
+# define CONVERSIONS "cspdiuxX%"
+
 typedef enum e_flags
 {
 	FLAG_NONE			= 0,
