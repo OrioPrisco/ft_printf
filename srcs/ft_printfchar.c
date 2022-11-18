@@ -12,13 +12,14 @@
 
 #include "ftprintf.h"
 #include <stdarg.h>
-#include <libfth.h>
+#include <libft.h>
+#include <unistd.h>
 
 ssize_t	ft_printfchar(t_flags flags, int precision, int width, va_list *ap)
 {
 	char	c;
 
-	c = va_arg(*ap, char);
+	c = (char)va_arg(*ap, int);
 	(void)precision;
 	if (width > 1 && !(flags & FLAG_MINUS))
 		if (ft_pad(' ', width - 1) < 0)
