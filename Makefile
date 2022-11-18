@@ -10,17 +10,19 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME				= libftprintf.a
-SRC					= parse.c
-SRC_FOLDER			= srcs/
+NAME				=	libftprintf.a
+SRC					=	parse.c\
+						ft_printfutils.c\
+						ft_printfchar.c
+SRC_FOLDER			=	srcs/
 HEADERS_FOLDER		=	includes/\
 						libft/
-OBJS				= $(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
-OBJ_FOLDER			= objs/
-CC					= cc
-CFLAGS				= -Wall -Wextra -Werror
-LIBFT_PATH			= libft/
-LIBFT				= $(LIBFT_PATH)libft.a
+OBJS				=	$(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
+OBJ_FOLDER			=	objs/
+CC					=	cc
+CFLAGS				=	-Wall -Wextra -Werror
+LIBFT_PATH			=	libft/
+LIBFT				= 	(LIBFT_PATH)libft.a
 
 all: $(NAME)
 
