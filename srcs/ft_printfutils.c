@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "ftprintf.h"
+#include <libft.h>
 #include <unistd.h>
 
 //returns -1 on failure
 //or bytes written
-ssize_t	ft_pad(char c, size_t repeat)
+ssize_t	ft_pad(char c, ssize_t repeat)
 {
 	char		buffer[1024];
 	ssize_t		total_bytes;
