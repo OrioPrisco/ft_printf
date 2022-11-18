@@ -22,7 +22,7 @@ OBJ_FOLDER			=	objs/
 CC					=	cc
 CFLAGS				=	-Wall -Wextra -Werror
 LIBFT_PATH			=	libft/
-LIBFT				= 	(LIBFT_PATH)libft.a
+LIBFT				= 	$(LIBFT_PATH)libft.a
 
 all: $(NAME)
 
@@ -33,7 +33,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	ar rcs $(NAME) $(OBJS)
 
 $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
-	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) -L$(LIBFT_PATH) $< -o $@ -lft
+	$(CC) -c -fPIC $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) $< -o $@
 
 clean:
 	rm -f $(OBJS)
