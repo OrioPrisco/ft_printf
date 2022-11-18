@@ -68,7 +68,7 @@ static int	parse(char *str, va_list *ap, t_flags flags, char conversion)
 	precision = -1;
 	if (flags & FLAG_FIELD_WIDTH)
 	{
-		s = ft_strchr(str, '.') - 1;
+		s = ft_strchrnul(str, '.') - 1;
 		while (ft_isdigit(*s))
 			s--;
 		field_width = ft_atoi(++s);
