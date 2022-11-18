@@ -13,7 +13,8 @@
 #ifndef FTPRINTF_H
 # define FTPRINTF_H
 
-ssize_t	ft_pad(char c, size_t repeat);
+# include <sys/types.h>
+# include <stdarg.h>
 
 typedef enum e_flags
 {
@@ -27,4 +28,13 @@ typedef enum e_flags
 	FLAG_PRECISION		= 1 << 6,
 }	t_flags;
 
+int		ftprintf(char *s, ...);
+ssize_t	ft_pad(char c, ssize_t repeat);
+int		find_parseable(char *str, va_list *ap);
+ssize_t	ft_printfchar(t_flags flags, int precision, int width, va_list *ap);
+ssize_t	ft_printfstr(t_flags flags, int precision, int width, va_list *ap);
+ssize_t	ft_printfptr(t_flags flags, int precision, int width, va_list *ap);
+ssize_t	ft_printfint(t_flags flags, int precision, int width, va_list *ap);
+ssize_t	ft_printfuint(t_flags flags, int precision, int width, va_list *ap);
+ssize_t	ft_printfhex(t_flags flags, int precision, int width, va_list *ap);
 #endif
