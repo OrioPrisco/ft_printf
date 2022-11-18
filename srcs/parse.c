@@ -16,10 +16,30 @@
 #include <ftprintf.h>
 
 //'.' has to be the first char because of implentation details
-static const char	*g_flags = ".0 #+-";
-static const char	*g_flags_num = ". #+-0123456789";
-static const char	*g_conversions = "cspdiuxX%";
-static int (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {};
+static const char		*g_flags = ".0 #+-";
+static const char		*g_flags_num = ". #+-0123456789";
+static const char		*g_conversions = "cspdiuxX%";
+static ssize_t (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {
+	&ft_printfchar
+};
+/*	&ft_printfstr,
+	&ft_printfptr,
+	&ft_printfint,
+	&ft_printfint,
+	&ft_printfuint,
+	&ft_printfhex,
+	&ft_printfhex
+};*/
+
+int	ftprintf(char *s, ...)
+{
+	va_list	ap;
+
+	va_start(ap, s);
+	find_parseable(s, &ap);
+	va_end(ap);
+	return (0);
+}
 
 //aside from field width, could do some 1 << g_flags - strchr(g_flags, c)
 static t_flags	char_to_flag(char c)
