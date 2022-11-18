@@ -16,9 +16,10 @@
 #include <ftprintf.h>
 
 static ssize_t (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {
-	&ft_printfchar
+	&ft_printfchar,
+	&ft_printfstr,
 };
-/*	&ft_printfstr,
+/*
 	&ft_printfptr,
 	&ft_printfint,
 	&ft_printfint,
@@ -74,7 +75,7 @@ static int	parse(char *str, va_list *ap, t_flags flags, char conversion)
 	}
 	if (flags & FLAG_PRECISION)
 		precision = ft_atoi(ft_strchr(str, '.') + 1);
-	return (g_print_funcs[CONVERSIONS - ft_strchr(CONVERSIONS, conversion)]
+	return (g_print_funcs[ft_index(CONVERSIONS, conversion)]
 		(flags, precision, field_width, ap));
 }
 
