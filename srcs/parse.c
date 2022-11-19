@@ -18,24 +18,30 @@
 static ssize_t (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {
 	&ft_printfchar,
 	&ft_printfstr,
-};
-/*
 	&ft_printfptr,
 	&ft_printfint,
 	&ft_printfint,
 	&ft_printfuint,
 	&ft_printfhex,
 	&ft_printfhexup
-};*/
+};
 
 int	ftprintf(char *s, ...)
 {
 	va_list	ap;
+	size_t	bytes_written;
+	size_t	total_bytes;
 
+	total_bytes = 0;
 	va_start(ap, s);
-	find_parseable(s, &ap);
+//	while (1)
+//	{
+		bytes_written = find_parseable(s, &ap);
+		if (bytes_written < 0)
+			return (-1);
+//	}
 	va_end(ap);
-	return (0);
+	return (bytes_written);
 }
 
 //aside from field width, could do some 1 << g_flags - strchr(g_flags, c)
@@ -68,7 +74,9 @@ static int	parse(char *str, va_list *ap, t_flags flags, char conversion)
 	precision = -1;
 	if (flags & FLAG_FIELD_WIDTH)
 	{
-		s = ft_strchrnul(str, '.') - 1;
+		s = ft_strchrnul(str, '.');
+		while (!ft_isdigit(*s))
+			s--;
 		while (ft_isdigit(*s))
 			s--;
 		field_width = ft_atoi(++s);

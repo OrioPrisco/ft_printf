@@ -42,5 +42,5 @@ ssize_t	ft_printfint(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfuint(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfhex(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfhexup(t_flags flags, int precision, int width, va_list *ap);
-ssize_t	ft_printfnum(t_flags flg, int pw[2], long num, const char *bas);
+ssize_t	ft_printfnum(t_flags f, int pws[3], unsigned long n, const char *b);
 #endif
