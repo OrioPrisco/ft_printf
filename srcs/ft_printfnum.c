@@ -65,16 +65,16 @@ ssize_t	ft_printfnum(t_flags flg,
 
 	base_len = ft_strlen(bas);
 	len = ft_strlen_base(num, bas, pws, flg);
-	prec = pws[0];
-	if (prec < len)
-		prec = len;
-	if ((!(flg & FLAG_MINUS) && pws[1] > prec
+	prec = FT_MAX(pws[0], len);
+	if ((!(flg & (FLAG_MINUS | FLAG_ZERO)) && pws[1] > prec
 			&& ft_pad(' ', pws[1] - prec) < 0)
 		|| ((pws[2] || (flg & (FLAG_PLUS | FLAG_SPACE)))
 			&& write(1, &" +--"[pws[2] * 2 + ((flg & FLAG_PLUS) > 0)], 1) < 0)
 		|| (!(pws[0] == 0 && num == 0) && base_len == 16 && flg & FLAG_HASH
 			&& write(1, &bas[17], 2) < 0)
-		|| (flg & FLAG_ZERO && prec > len
+		|| ((flg & FLAG_ZERO && pws[1] > prec)
+			&& ft_pad('0', pws[1] - prec) < 0)
+		|| (prec > len
 			&& ft_pad('0', prec - len) < 0)
 		|| (!(pws[0] == 0 && num == 0)
 			&& (ft_putnbr_b(num, bas, base_len) < 0))

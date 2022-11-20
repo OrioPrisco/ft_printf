@@ -25,6 +25,8 @@ ssize_t	ft_printfint(t_flags flags, int precision, int width, va_list *ap)
 	pws[2] = data < 0;
 	if (pws[2])
 		data *= -1;
+	if (flags & FLAG_PRECISION)
+		flags &= ~FLAG_ZERO;
 	return (ft_printfnum(flags, pws, (unsigned long)data, base));
 }
 
@@ -38,6 +40,9 @@ ssize_t	ft_printfuint(t_flags flags, int precision, int width, va_list *ap)
 	pws[0] = precision;
 	pws[1] = width;
 	pws[2] = 0;
+	flags &= ~(FLAG_SPACE | FLAG_PLUS);
+	if (flags & FLAG_PRECISION)
+		flags &= ~FLAG_ZERO;
 	return (ft_printfnum(flags, pws, (unsigned long)data, base));
 }
 
@@ -51,6 +56,9 @@ ssize_t	ft_printfhex(t_flags flags, int precision, int width, va_list *ap)
 	pws[0] = precision;
 	pws[1] = width;
 	pws[2] = 0;
+	flags &= ~(FLAG_SPACE | FLAG_PLUS);
+	if (flags & FLAG_PRECISION)
+		flags &= ~FLAG_ZERO;
 	return (ft_printfnum(flags, pws, data, base));
 }
 
@@ -65,6 +73,8 @@ ssize_t	ft_printfhexup(t_flags flags, int precision, int width, va_list *ap)
 	pws[1] = width;
 	pws[2] = 0;
 	flags &= ~(FLAG_SPACE | FLAG_PLUS);
+	if (flags & FLAG_PRECISION)
+		flags &= ~FLAG_ZERO;
 	return (ft_printfnum(flags, pws, (unsigned long)data, base));
 }
 
