@@ -44,7 +44,7 @@ static int	ft_strlen_base(long nb, const char *base, int pws[3], t_flags flags)
 		++size;
 	if (pws[0] > 0 || nb != 0)
 	{
-		if (base_len == 16 && (flags & FLAG_HASH))
+		if ((flags & FLAG_HASH) && base_len == 16 && nb != 0)
 			size += 2;
 		return (size + ft_strlen_b(nb, base, ft_strlen(base)));
 	}
@@ -70,7 +70,7 @@ ssize_t	ft_printfnum(t_flags flags,
 			&& ft_pad(' ', pws[1] - precision) < 0)
 		|| ((pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
 			&& write(1, &" +--"[pws[2] * 2 + ((flags & FLAG_PLUS) > 0)], 1) < 0)
-		|| (!(pws[0] == 0 && number == 0) && base_len == 16 && flags & FLAG_HASH
+		|| (number && base_len == 16 && flags & FLAG_HASH
 			&& write(1, &base[17], 2) < 0)
 		|| ((flags & FLAG_ZERO && pws[1] > precision)//
 			&& ft_pad('0', pws[1] - precision) < 0)//
