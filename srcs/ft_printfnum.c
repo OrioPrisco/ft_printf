@@ -17,10 +17,10 @@
 //calculates size of the string that will be created by putnbr_base
 //includes the 0x for base 16 conversions
 //and the eventual sign
-static int	ft_strlen_b(unsigned long nb, const char *base, size_t base_len)
+static int	ft_strlen_b(unsigned long nb, size_t base_len)
 {
 	if ((nb / base_len) > 0)
-		return (1 + ft_strlen_b(nb / base_len, base, base_len));
+		return (1 + ft_strlen_b(nb / base_len, base_len));
 	return (1);
 }
 
@@ -33,12 +33,10 @@ static ssize_t	ft_putnbr_b(long nb, const char *base, size_t base_len)
 	return (write(1, &base[nb % base_len], 1));
 }
 
-static int	ft_strlen_base(long nb, const char *base, int pws[3], t_flags flags)
+static int	ft_strlen_base(long nb, int base_len, int pws[3], t_flags flags)
 {
 	int	size;
-	int	base_len;
 
-	base_len = ft_strlen(base);
 	size = 0;
 	if (pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
 		++size;
@@ -46,7 +44,7 @@ static int	ft_strlen_base(long nb, const char *base, int pws[3], t_flags flags)
 	{
 		if ((flags & FLAG_HASH) && base_len == 16 && nb != 0)
 			size += 2;
-		return (size + ft_strlen_b(nb, base, ft_strlen(base)));
+		return (size + ft_strlen_b(nb, base_len));
 	}
 	return (size);
 }
@@ -64,7 +62,7 @@ ssize_t	ft_printfnum(t_flags flags,
 	int		precision;
 
 	base_len = ft_strlen(base);
-	length = ft_strlen_base(number, base, pws, flags);
+	length = ft_strlen_base(number, base_len, pws, flags);
 	precision = FT_MAX(pws[0], length);
 	if ((!(flags & (FLAG_MINUS | FLAG_ZERO)) && pws[1] > precision
 			&& ft_pad(' ', pws[1] - precision) < 0)
