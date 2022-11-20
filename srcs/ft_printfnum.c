@@ -51,37 +51,37 @@ static int	ft_strlen_base(long nb, const char *base, int pws[3], t_flags flags)
 	return (size);
 }
 
-//num is a long, this way it can hold both int and uints
-//bas has to be a valid base, no checking is done
+//number is a long, this way it can hold both int and uints
+//base has to be a valid base, no checking is done
 //base 16 need to have the 0x/0X after the first \0
 //hacky but eh
 //to print unsigned make sure to unset the + flag
-ssize_t	ft_printfnum(t_flags flg,
-		int pws[3], unsigned long num, const char *bas)
+ssize_t	ft_printfnum(t_flags flags,
+		int pws[3], unsigned long number, const char *base)
 {
-	ssize_t	len;
+	ssize_t	length;
 	int		base_len;
-	int		prec;
+	int		precision;
 
-	base_len = ft_strlen(bas);
-	len = ft_strlen_base(num, bas, pws, flg);
-	prec = FT_MAX(pws[0], len);
-	if ((!(flg & (FLAG_MINUS | FLAG_ZERO)) && pws[1] > prec
-			&& ft_pad(' ', pws[1] - prec) < 0)
-		|| ((pws[2] || (flg & (FLAG_PLUS | FLAG_SPACE)))
-			&& write(1, &" +--"[pws[2] * 2 + ((flg & FLAG_PLUS) > 0)], 1) < 0)
-		|| (!(pws[0] == 0 && num == 0) && base_len == 16 && flg & FLAG_HASH
-			&& write(1, &bas[17], 2) < 0)
-		|| ((flg & FLAG_ZERO && pws[1] > prec)
-			&& ft_pad('0', pws[1] - prec) < 0)
-		|| (prec > len
-			&& ft_pad('0', prec - len) < 0)
-		|| (!(pws[0] == 0 && num == 0)
-			&& (ft_putnbr_b(num, bas, base_len) < 0))
-		|| (flg & FLAG_MINUS && pws[1] > prec
-			&& ft_pad(' ', pws[1] - prec) < 0))
+	base_len = ft_strlen(base);
+	length = ft_strlen_base(number, base, pws, flags);
+	precision = FT_MAX(pws[0], length);
+	if ((!(flags & (FLAG_MINUS | FLAG_ZERO)) && pws[1] > precision
+			&& ft_pad(' ', pws[1] - precision) < 0)
+		|| ((pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
+			&& write(1, &" +--"[pws[2] * 2 + ((flags & FLAG_PLUS) > 0)], 1) < 0)
+		|| (!(pws[0] == 0 && number == 0) && base_len == 16 && flags & FLAG_HASH
+			&& write(1, &base[17], 2) < 0)
+		|| ((flags & FLAG_ZERO && pws[1] > precision)//
+			&& ft_pad('0', pws[1] - precision) < 0)//
+		|| (precision > length
+			&& ft_pad('0', precision - length) < 0)
+		|| (!(pws[0] == 0 && number == 0)
+			&& (ft_putnbr_b(number, base, base_len) < 0))
+		|| (flags & FLAG_MINUS && pws[1] > precision
+			&& ft_pad(' ', pws[1] - precision) < 0))
 		return (-1);
-	if (pws[1] > len)
+	if (pws[1] > length)
 		return (pws[1]);
-	return (len);
+	return (length);
 }
