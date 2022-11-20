@@ -16,6 +16,7 @@
 # include <sys/types.h>
 # include <stdarg.h>
 
+//. has to be first
 # define FLAGS ".0 #+-"
 # define FLAGS_NUM ". #+-0123456789"
 # define CONVERSIONS "cspdiuxX%"
@@ -32,9 +33,14 @@ typedef enum e_flags
 	FLAG_PRECISION		= 1 << 6,
 }	t_flags;
 
-int		ftprintf(char *s, ...);
+int		ftprintf(const char *s, ...);
+
+//utils
+ssize_t	advance_str(const char **str, size_t amount);
+t_flags	char_to_flag(char c);
 ssize_t	ft_pad(char c, ssize_t repeat);
-int		find_parseable(char *str, va_list *ap);
+
+//print functions
 ssize_t	ft_printfchar(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfstr(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfptr(t_flags flags, int precision, int width, va_list *ap);

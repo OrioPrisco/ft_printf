@@ -33,3 +33,30 @@ ssize_t	ft_pad(char c, ssize_t repeat)
 			return (-1);
 	return (total_bytes);
 }
+
+//aside from field width, could do some 1 << g_flags - strchr(g_flags, c)
+//simple conversion
+t_flags	char_to_flag(char c)
+{
+	if (c == '0')
+		return (FLAG_ZERO);
+	if (c == ' ')
+		return (FLAG_SPACE);
+	if (c == '#')
+		return (FLAG_HASH);
+	if (c == '+')
+		return (FLAG_PLUS);
+	if (c == '-')
+		return (FLAG_MINUS);
+	if (ft_isdigit(c))
+		return (FLAG_FIELD_WIDTH);
+	if (c == '.')
+		return (FLAG_PRECISION);
+	return (FLAG_NONE);
+}
+
+ssize_t	advance_str(const char **str, size_t amount)
+{
+	*str += amount;
+	return (amount);
+}
