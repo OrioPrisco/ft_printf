@@ -31,8 +31,8 @@ static ssize_t (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {
 int	ftprintf(const char *format, ...)
 {
 	va_list	ap;
-	size_t	bytes_written;
-	size_t	total_bytes;
+	ssize_t	bytes_written;
+	ssize_t	total_bytes;
 
 	total_bytes = 0;
 	va_start(ap, format);
@@ -48,7 +48,7 @@ int	ftprintf(const char *format, ...)
 
 //parses the numbers, removes some f;ags that override each other
 //and call the correct printing function with all the info
-static int	parse_and_print(char *format, va_list *ap,
+static int	parse_and_print(const char **format, va_list *ap,
 	t_flags flags, char conversion)
 {
 	int		field_width;
@@ -59,7 +59,7 @@ static int	parse_and_print(char *format, va_list *ap,
 	precision = -1;
 	if (flags & FLAG_FIELD_WIDTH)
 	{
-		s = ft_strchrnul(format, '.');
+		s = ft_strchrnul(*format, '.');
 		while (!ft_isdigit(*s))
 			s--;
 		while (ft_isdigit(*s))
@@ -67,11 +67,12 @@ static int	parse_and_print(char *format, va_list *ap,
 		field_width = ft_atoi(++s);
 	}
 	if (flags & FLAG_PRECISION)
-		precision = ft_atoi(ft_strchr(format, '.') + 1);
+		precision = ft_atoi(ft_strchr(*format, '.') + 1);
 	if (flags && FLAG_PLUS)
 		flags &= ~FLAG_SPACE;
 	if (flags & FLAG_MINUS)
 		flags &= ~FLAG_ZERO;
+	*format = ft_strchrnul(*format, conversion) + 1;
 	return (g_print_funcs[ft_index(CONVERSIONS, conversion)]
 		(flags, precision, field_width, ap));
 }
@@ -82,32 +83,33 @@ static int	parse_and_print(char *format, va_list *ap,
 //returns
 // -1 on failure
 // bytes written
-static int	check_format_and_parse(char *format, size_t n, va_list *ap)
+static int	check_format_and_parse(const char **format, size_t n, va_list *ap)
 {
 	size_t	i;
 	t_flags	flags;
 
-	flags = 0;
+	flags = FLAG_NONE;
 	i = 1;
 	if (i < n)
 	{
-		while (i < n && ft_strchr(&FLAGS[1], format[i]))
-			flags |= char_to_flag(format[i++]);
-		while (i < n && ft_isdigit(format[i]))
-		{
+		while (i < n && ft_strchr(&FLAGS[1], (*format)[i]))
+			flags |= char_to_flag((*format)[i++]);
+		if (i < n && ft_isdigit((*format)[i]))
 			flags |= FLAG_FIELD_WIDTH;
+		while (i < n && ft_isdigit((*format)[i]))
 			i++;
-		}
-		if (i < n && format[i] == '.')
-		{
-			flags |= char_to_flag(format[i++]);
-			while (i < n && ft_isdigit(format[i]))
+		if (i < n && (*format)[i] == '.')
+			flags |= char_to_flag((*format)[i++]);
+		while ((flags & FLAG_PRECISION) && i < n && ft_isdigit((*format)[i]))
 				i++;
-		}
 	}
-	if (!ft_strchr(CONVERSIONS, format[i]))
-		return (0);
-	return (parse_and_print(format, ap, flags, format[i]));
+	if (!ft_strchr(CONVERSIONS, (*format)[i]))
+	{
+		if (write(1, *format, i) < 0)
+			return (-1);
+		return (advance_str(format, i));
+	}
+	return (parse_and_print(format, ap, flags, (*format)[i]));
 }
 
 //returns bytes written
@@ -116,25 +118,25 @@ static int	check_format_and_parse(char *format, size_t n, va_list *ap)
 static ssize_t	find_and_parse(const char **format, va_list *ap)
 {
 	ssize_t	bytes_written;
-	size_t	n;
-	char	*s;
+	ssize_t	n;
 
-	s = ft_strchrnul(*format, '%');
-	if (write(1, format, s - *format) < 0)
+	bytes_written = ft_strchrnul(*format, '%') - *format;
+	if (write(1, format, bytes_written) < 0)
 		return (-1);
-	if (!*s)
-		return (s - *format);
+	if (!(*format)[bytes_written])
+		return (bytes_written);
 	n = 1;
-	while (s[n] && ft_strchr(FLAGS_NUM, s[n]))
+	while (format[n] && ft_strchr(FLAGS_NUM, (*format)[n]))
 		n++;
-	if (!ft_strchr(CONVERSIONS, s[n]))
+	if (!ft_strchr(CONVERSIONS, (*format)[n]))
 	{
-		if (write(1, s, n) < 0)
+		if (write(1, *format, n) < 0)
 			return (-1);
-		return (s - *format + n);
+		bytes_written = advance_str(format, n);
+		return (bytes_written);
 	}
-	bytes_written = check_format_and_parse(s, n, ap);
-	if (bytes_written < 0)
+	n = check_format_and_parse(format, n, ap);
+	if (n < 0)
 		return (-1);
-	return (bytes_written + (s - *format));
+	return (n + bytes_written);
 }
