@@ -33,16 +33,16 @@ static ssize_t	ft_putnbr_b(long nb, const char *base, size_t base_len)
 	return (write(1, &base[nb % base_len], 1));
 }
 
-static int	ft_strlen_base(long nb, const char *base, int prec, t_flags flags)
+static int	ft_strlen_base(long nb, const char *base, int pws[3], t_flags flags)
 {
 	int	size;
 	int	base_len;
 
 	base_len = ft_strlen(base);
 	size = 0;
-	if (nb < 0 || (flags & (FLAG_PLUS | FLAG_SPACE)))
+	if (pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
 		++size;
-	if (prec > 0 || nb != 0)
+	if (pws[0] > 0 || nb != 0)
 	{
 		if (base_len == 16 && (flags & FLAG_HASH))
 			size += 2;
@@ -64,7 +64,7 @@ ssize_t	ft_printfnum(t_flags flg,
 	int		prec;
 
 	base_len = ft_strlen(bas);
-	len = ft_strlen_base(num, bas, pws[1], flg);
+	len = ft_strlen_base(num, bas, pws, flg);
 	prec = pws[0];
 	if (prec < len)
 		prec = len;
