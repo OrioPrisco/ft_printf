@@ -16,7 +16,7 @@
 ssize_t	ft_printfint(t_flags flags, int precision, int width, va_list *ap)
 {
 	int				pws[3];
-	long				data;
+	long			data;
 	const char		*base = "0123456789";
 
 	data = va_arg(*ap, int);
