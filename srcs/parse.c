@@ -34,12 +34,12 @@ int	ftprintf(char *s, ...)
 
 	total_bytes = 0;
 	va_start(ap, s);
-//	while (1)
-//	{
-		bytes_written = find_parseable(s, &ap);
-		if (bytes_written < 0)
-			return (-1);
-//	}
+	while (0)
+	{
+	}
+	bytes_written = find_parseable(s, &ap);
+	if (bytes_written < 0)
+		return (-1);
 	va_end(ap);
 	return (bytes_written);
 }
@@ -102,7 +102,7 @@ static int	check_format(char *str, size_t n, va_list *ap)
 
 	flags = 0;
 	i = 1;
-	while (i < n)
+	if (i < n)
 	{
 		while (i < n && ft_strchr(&FLAGS[1], str[i]))
 			flags |= char_to_flag(str[i++]);
@@ -112,7 +112,11 @@ static int	check_format(char *str, size_t n, va_list *ap)
 			i++;
 		}
 		if (i < n && str[i] == '.')
+		{
 			flags |= char_to_flag(str[i++]);
+			while (i < n && ft_isdigit(str[i]))
+				i++;
+		}
 	}
 	if (!ft_strchr(CONVERSIONS, str[i]))
 		return (0);
