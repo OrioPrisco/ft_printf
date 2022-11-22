@@ -33,7 +33,7 @@ typedef enum e_flags
 	FLAG_PRECISION		= 1 << 6,
 }	t_flags;
 
-int		ftprintf(const char *s, ...);
+int		ft_printf(const char *s, ...);
 
 //utils
 ssize_t	advance_str(const char **str, size_t amount);

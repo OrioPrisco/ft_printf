@@ -29,7 +29,7 @@ static ssize_t (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {
 	&ft_printfpercent
 };
 
-int	ftprintf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
 	va_list	ap;
 	ssize_t	bytes_written;

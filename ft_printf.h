@@ -12,5 +12,5 @@
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-int		ftprintf(const char *s, ...);
+int		ft_printf(const char *s, ...);
 #endif
