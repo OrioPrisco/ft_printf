@@ -54,9 +54,9 @@ static int	ft_strlen_fluff(unsigned long nb,
 //basically strlen_b with a special case for ) on precision 0
 static int	ft_strlen_base(unsigned long nb, int base_len, int precision)
 {
-	if (precision > 0 || nb != 0)
-		return (ft_strlen_b(nb, base_len));
-	return (0);
+	if (precision == 0 && nb == 0)
+		return (0);
+	return (ft_strlen_b(nb, base_len));
 }
 
 //number is a long, this way it can hold both int and uints
