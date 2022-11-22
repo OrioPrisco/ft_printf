@@ -135,7 +135,7 @@ static ssize_t	find_and_parse(const char **format, va_list *ap)
 	{
 		if (write(1, *format, n) < 0)
 			return (-1);
-		bytes_written = advance_str(format, n);
+		bytes_written += advance_str(format, n);
 		return (bytes_written);
 	}
 	n = check_format_and_parse(format, n, ap);
