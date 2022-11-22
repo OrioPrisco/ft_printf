@@ -49,10 +49,10 @@ ssize_t	ft_printfuint(t_flags flags, int precision, int width, va_list *ap)
 ssize_t	ft_printfhex(t_flags flags, int precision, int width, va_list *ap)
 {
 	int				pws[3];
-	unsigned long	data;
+	unsigned int	data;
 	const char		*base = "0123456789abcdef\0000x";
 
-	data = va_arg(*ap, unsigned long);
+	data = va_arg(*ap, unsigned int);
 	pws[0] = precision;
 	pws[1] = width;
 	pws[2] = 0;
@@ -65,10 +65,10 @@ ssize_t	ft_printfhex(t_flags flags, int precision, int width, va_list *ap)
 ssize_t	ft_printfhexup(t_flags flags, int precision, int width, va_list *ap)
 {
 	int				pws[3];
-	unsigned long	data;
+	unsigned int	data;
 	const char		*base = "0123456789ABCDEF\0000X";
 
-	data = va_arg(*ap, unsigned long);
+	data = va_arg(*ap, unsigned int);
 	pws[0] = precision;
 	pws[1] = width;
 	pws[2] = 0;
@@ -80,6 +80,17 @@ ssize_t	ft_printfhexup(t_flags flags, int precision, int width, va_list *ap)
 
 ssize_t	ft_printfptr(t_flags flags, int precision, int width, va_list *ap)
 {
+	int				pws[3];
+	unsigned long	data;
+	const char		*base = "0123456789abcdef\0000x";
+
 	flags |= FLAG_HASH;
-	return (ft_printfhex(flags, precision, width, ap));
+	data = (unsigned long)va_arg(*ap, void *);
+	pws[0] = precision;
+	pws[1] = width;
+	pws[2] = 0;
+	flags &= ~(FLAG_SPACE | FLAG_PLUS);
+	if (flags & FLAG_PRECISION)
+		flags &= ~FLAG_ZERO;
+	return (ft_printfnum(flags, pws, data, base));
 }
