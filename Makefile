@@ -50,3 +50,6 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+.SUFFIXES:
+MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --no-builtin-rules
