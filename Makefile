@@ -26,7 +26,7 @@ OBJ_FOLDER			=	objs/
 CC					=	cc
 CFLAGS				=	-Wall -Wextra -Werror
 LIBFT_PATH			=	libft/
-LIBFT				= 	$(LIBFT_PATH)libft.a
+LIBFT				=	$(LIBFT_PATH)libft.a
 
 all: $(NAME)
 
