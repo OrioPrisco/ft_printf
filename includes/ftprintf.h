@@ -41,6 +41,7 @@ t_flags	char_to_flag(char c);
 ssize_t	ft_pad(char c, ssize_t repeat);
 
 //print functions
+ssize_t	ft_printfpercent(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfchar(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfstr(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfptr(t_flags flags, int precision, int width, va_list *ap);

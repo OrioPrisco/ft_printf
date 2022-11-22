@@ -25,7 +25,8 @@ static ssize_t (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {
 	&ft_printfint,
 	&ft_printfuint,
 	&ft_printfhex,
-	&ft_printfhexup
+	&ft_printfhexup,
+	&ft_printfpercent
 };
 
 int	ftprintf(const char *format, ...)
@@ -73,7 +74,7 @@ static int	parse_and_print(const char **format, va_list *ap,
 		flags &= ~FLAG_SPACE;
 	if (flags & FLAG_MINUS)
 		flags &= ~FLAG_ZERO;
-	*format = ft_strchrnul(*format, conversion) + 1;
+	*format = ft_strchrnul(*format + (conversion == '%'), conversion) + 1;
 	return (g_print_funcs[ft_index(CONVERSIONS, conversion)]
 		(flags, precision, field_width, ap));
 }

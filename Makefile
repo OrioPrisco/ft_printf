@@ -16,7 +16,8 @@ SRC					=	parse.c\
 						ft_printfchar.c\
 						ft_printfstr.c\
 						ft_printfnum.c\
-						ft_printfnums.c
+						ft_printfnums.c\
+						ft_printfpercent.c
 SRC_FOLDER			=	srcs/
 HEADERS_FOLDER		=	includes/\
 						libft/
