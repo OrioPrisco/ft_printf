@@ -91,5 +91,5 @@ ssize_t	ft_printfnum(t_flags flags,
 		|| (flags & FLAG_MINUS && pws[1] > width
 			&& ft_pad(' ', pws[1] - width) < 0))
 		return (-1);
-	return (FT_MAX(pws[1], precision));
+	return (FT_MAX(pws[1], width));
 }
