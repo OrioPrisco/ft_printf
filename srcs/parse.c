@@ -36,14 +36,15 @@ int	ftprintf(const char *format, ...)
 
 	total_bytes = 0;
 	va_start(ap, format);
-	while (0)
+	while (*format)
 	{
+		bytes_written = find_and_parse(&format, &ap);
+		if (bytes_written < 0)
+			return (-1);
+		total_bytes += bytes_written;
 	}
-	bytes_written = find_and_parse(&format, &ap);
-	if (bytes_written < 0)
-		return (-1);
 	va_end(ap);
-	return (bytes_written);
+	return (total_bytes);
 }
 
 //parses the numbers, removes some f;ags that override each other
@@ -121,12 +122,13 @@ static ssize_t	find_and_parse(const char **format, va_list *ap)
 	ssize_t	n;
 
 	bytes_written = ft_strchrnul(*format, '%') - *format;
-	if (write(1, format, bytes_written) < 0)
+	if (write(1, *format, bytes_written) < 0)
 		return (-1);
-	if (!(*format)[bytes_written])
+	advance_str(format, bytes_written);
+	if (!(**format))
 		return (bytes_written);
 	n = 1;
-	while (format[n] && ft_strchr(FLAGS_NUM, (*format)[n]))
+	while ((*format)[n] && ft_strchr(FLAGS_NUM, (*format)[n]))
 		n++;
 	if (!ft_strchr(CONVERSIONS, (*format)[n]))
 	{
