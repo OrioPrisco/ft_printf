@@ -53,20 +53,18 @@ int	ft_printf(const char *format, ...)
 static int	parse_and_print(const char **format, va_list *ap,
 	t_flags flags, char conversion)
 {
-	int		field_width;
-	int		precision;
-	char	*s;
+	int			field_width;
+	int			precision;
+	const char	*s;
 
 	field_width = -1;
 	precision = -1;
 	if (flags & FLAG_FIELD_WIDTH)
 	{
-		s = ft_strchrnul(*format, '.');
-		while (!ft_isdigit(*s))
-			s--;
-		while (ft_isdigit(*s))
-			s--;
-		field_width = ft_atoi(++s);
+		s = *format;
+		while (!ft_isdigit(*s) && *s != '0')
+			s++;
+		field_width = ft_atoi(s);
 	}
 	if (flags & FLAG_PRECISION)
 		precision = ft_atoi(ft_strchr(*format, '.') + 1);
