@@ -34,6 +34,7 @@ $(LIBFT):
 	make -C $(LIBFT_PATH)
 
 $(NAME): $(OBJS) $(LIBFT)
+	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJS)
 
 $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
