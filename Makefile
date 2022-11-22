@@ -30,6 +30,8 @@ LIBFT				=	$(LIBFT_PATH)libft.a
 
 all: $(NAME)
 
+bonus: all
+
 $(LIBFT):
 	make -C $(LIBFT_PATH)
 
