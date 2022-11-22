@@ -131,7 +131,7 @@ static ssize_t	find_and_parse(const char **format, va_list *ap)
 	n = 1;
 	while ((*format)[n] && ft_strchr(FLAGS_NUM, (*format)[n]))
 		n++;
-	if (!ft_strchr(CONVERSIONS, (*format)[n]))
+	if (!(*format)[n] || !ft_strchr(CONVERSIONS, (*format)[n]))
 	{
 		if (write(1, *format, n) < 0)
 			return (-1);
