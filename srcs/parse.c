@@ -69,7 +69,7 @@ static int	parse_and_print(const char **format, va_list *ap,
 	}
 	if (flags & FLAG_PRECISION)
 		precision = ft_atoi(ft_strchr(*format, '.') + 1);
-	if (flags && FLAG_PLUS)
+	if (flags & FLAG_PLUS)
 		flags &= ~FLAG_SPACE;
 	if (flags & FLAG_MINUS)
 		flags &= ~FLAG_ZERO;
