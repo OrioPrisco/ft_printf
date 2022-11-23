@@ -61,7 +61,7 @@ ssize_t	advance_str(const char **str, size_t amount)
 	return (amount);
 }
 
-ssize_t	b_write(int no_flush, void *mem, size_t n)
+ssize_t	b_write(int no_flush, const void *mem, size_t n)
 {
 	static char		buffer[1024];
 	static size_t	fullness;

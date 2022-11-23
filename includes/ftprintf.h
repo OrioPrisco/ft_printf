@@ -39,7 +39,7 @@ int		ft_printf(const char *s, ...);
 ssize_t	advance_str(const char **str, size_t amount);
 t_flags	char_to_flag(char c);
 ssize_t	ft_pad(char c, ssize_t repeat);
-ssize_t	b_write(int no_flush, void *mem, size_t n);
+ssize_t	b_write(int no_flush, const void *mem, size_t n);
 
 //print functions
 ssize_t	ft_printfpercent(t_flags flags, int precision, int width, va_list *ap);
