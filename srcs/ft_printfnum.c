@@ -73,12 +73,12 @@ ssize_t	ft_printfnum(t_flags flags,
 
 	base_len = ft_strlen(base);
 	digits = ft_strlen_base(number, base_len, pws[0]);
-	precision = FT_MAX(pws[0], digits);
+	precision = ft_maxint(pws[0], digits);
 	width = precision + ft_strlen_fluff(number, base_len, pws, flags);
 	if ((!(flags & (FLAG_MINUS | FLAG_ZERO)) && pws[1] > width
 			&& ft_pad(' ', pws[1] - width) < 0)
 		|| ((pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
-			&& b_write(1, &" +--"[pws[2] * 2 + ((flags & FLAG_PLUS) > 0)], 1) < 0)
+			&& b_write(1, &" +--"[pws[2] * 2 + (!!(flags & FLAG_PLUS))], 1) < 0)
 		|| (number && base_len == 16 && flags & FLAG_HASH
 			&& b_write(1, &base[17], 2) < 0)
 		|| ((flags & FLAG_ZERO && pws[1] > width)
@@ -90,5 +90,5 @@ ssize_t	ft_printfnum(t_flags flags,
 		|| (flags & FLAG_MINUS && pws[1] > width
 			&& ft_pad(' ', pws[1] - width) < 0))
 		return (-1);
-	return (FT_MAX(pws[1], width));
+	return (ft_maxint(pws[1], width));
 }
