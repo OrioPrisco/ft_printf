@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <ftprintf.h>
-#include <unistd.h>
 
 ssize_t	ft_printfpercent(t_flags f, int p, int w, va_list *a)
 {
@@ -19,7 +18,7 @@ ssize_t	ft_printfpercent(t_flags f, int p, int w, va_list *a)
 	(void)p;
 	(void)w;
 	(void)a;
-	if (write(1, "%", 1) < 0)
+	if (b_write(1, "%", 1) < 0)
 		return (-1);
 	return (1);
 }

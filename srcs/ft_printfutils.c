@@ -24,12 +24,12 @@ ssize_t	ft_pad(char c, ssize_t repeat)
 	total_bytes = repeat;
 	while (repeat > 1024)
 	{
-		if (write(1, ft_memset(buffer, c, 1024), 1024) != 1024)
+		if (b_write(1, ft_memset(buffer, c, 1024), 1024) != 1024)
 			return (-1);
 		repeat -= 1024;
 	}
 	if (repeat)
-		if (write(1, ft_memset(buffer, c, 1024), repeat) != repeat)
+		if (b_write(1, ft_memset(buffer, c, 1024), repeat) != repeat)
 			return (-1);
 	return (total_bytes);
 }
@@ -59,4 +59,22 @@ ssize_t	advance_str(const char **str, size_t amount)
 {
 	*str += amount;
 	return (amount);
+}
+
+ssize_t	b_write(int no_flush, void *mem, size_t n)
+{
+	static char		buffer[1024];
+	static size_t	fullness;
+
+	if (!no_flush)
+		return (write(1, buffer, fullness));
+	if (n >= 1024 - fullness)
+	{
+		if (write(1, &buffer, fullness) < 0)
+			return (-1);
+		return (write(1, mem, n));
+	}
+	ft_memcpy(buffer + fullness, mem, n);
+	fullness += n;
+	return (n);
 }

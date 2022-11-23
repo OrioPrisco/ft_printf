@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <ftprintf.h>
-#include <unistd.h>
 #include <libft.h>
 
 //calculates size of the string that will be created by putnbr_base
@@ -30,7 +29,7 @@ static ssize_t	ft_putnbr_b(unsigned long nb, const char *base, size_t base_len)
 	if ((nb / base_len) > 0)
 		if (ft_putnbr_b(nb / base_len, base, base_len) < 0)
 			return (-1);
-	return (write(1, &base[nb % base_len], 1));
+	return (b_write(1, &base[nb % base_len], 1));
 }
 
 //calculates size of the string the extra stuff :
@@ -79,9 +78,9 @@ ssize_t	ft_printfnum(t_flags flags,
 	if ((!(flags & (FLAG_MINUS | FLAG_ZERO)) && pws[1] > width
 			&& ft_pad(' ', pws[1] - width) < 0)
 		|| ((pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
-			&& write(1, &" +--"[pws[2] * 2 + ((flags & FLAG_PLUS) > 0)], 1) < 0)
+			&& b_write(1, &" +--"[pws[2] * 2 + ((flags & FLAG_PLUS) > 0)], 1) < 0)
 		|| (number && base_len == 16 && flags & FLAG_HASH
-			&& write(1, &base[17], 2) < 0)
+			&& b_write(1, &base[17], 2) < 0)
 		|| ((flags & FLAG_ZERO && pws[1] > width)
 			&& ft_pad('0', pws[1] - width) < 0)
 		|| (precision > digits

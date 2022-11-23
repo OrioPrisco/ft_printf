@@ -12,7 +12,6 @@
 
 #include <libft.h>
 #include <stdarg.h>
-#include <unistd.h>
 #include <ftprintf.h>
 
 static ssize_t	find_and_parse(const char **format, va_list *ap);
@@ -45,6 +44,8 @@ int	ft_printf(const char *format, ...)
 		total_bytes += bytes_written;
 	}
 	va_end(ap);
+	if (b_write(0, NULL, 0) < 0)
+		return (-1);
 	return (total_bytes);
 }
 
@@ -105,7 +106,7 @@ static int	check_format_and_parse(const char **format, size_t n, va_list *ap)
 	}
 	if (!ft_strchr(CONVERSIONS, (*format)[i]))
 	{
-		if (write(1, *format, i) < 0)
+		if (b_write(1, *format, i) < 0)
 			return (-1);
 		return (advance_str(format, i));
 	}
@@ -121,7 +122,7 @@ static ssize_t	find_and_parse(const char **format, va_list *ap)
 	ssize_t	n;
 
 	bytes_written = ft_strchrnul(*format, '%') - *format;
-	if (write(1, *format, bytes_written) < 0)
+	if (b_write(1, *format, bytes_written) < 0)
 		return (-1);
 	advance_str(format, bytes_written);
 	if (!(**format))
@@ -131,7 +132,7 @@ static ssize_t	find_and_parse(const char **format, va_list *ap)
 		n++;
 	if (!(*format)[n] || !ft_strchr(CONVERSIONS, (*format)[n]))
 	{
-		if (write(1, *format, n) < 0)
+		if (b_write(1, *format, n) < 0)
 			return (-1);
 		return (bytes_written + advance_str(format, n));
 	}

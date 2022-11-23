@@ -13,7 +13,6 @@
 #include "ftprintf.h"
 #include <stdarg.h>
 #include <libft.h>
-#include <unistd.h>
 
 ssize_t	ft_printfstr(t_flags flags, int precision, int width, va_list *ap)
 {
@@ -27,7 +26,7 @@ ssize_t	ft_printfstr(t_flags flags, int precision, int width, va_list *ap)
 		len = ft_strlen(str);
 	if (!(flags & FLAG_MINUS) && (len < width) && ft_pad(' ', width - len) < 0)
 		return (-1);
-	if (write(1, str, len) < 0)
+	if (b_write(1, str, len) < 0)
 		return (-1);
 	if (flags & FLAG_MINUS && (len < width) && ft_pad(' ', width - len) < 0)
 		return (-1);
