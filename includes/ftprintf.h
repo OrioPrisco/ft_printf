@@ -33,6 +33,8 @@ typedef enum e_flags
 	FLAG_PRECISION		= 1 << 6,
 }	t_flags;
 
+typedef unsigned long long	t_ull;
+
 int		ft_printf(const char *s, ...);
 
 //utils
@@ -50,5 +52,5 @@ ssize_t	ft_printfint(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfuint(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfhex(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfhexup(t_flags flags, int precision, int width, va_list *ap);
-ssize_t	ft_printfnum(t_flags f, int pws[3], unsigned long n, const char *b);
+ssize_t	ft_printfnum(t_flags f, int pws[3], t_ull n, const char *b);
 #endif

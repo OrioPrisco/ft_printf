@@ -16,7 +16,7 @@
 //calculates size of the string that will be created by putnbr_base
 //omits the 0x for base 16 conversions
 //and the eventual sign
-static int	ft_strlen_b(unsigned long nb, size_t base_len)
+static int	ft_strlen_b(t_ull nb, size_t base_len)
 {
 	if ((nb / base_len) > 0)
 		return (1 + ft_strlen_b(nb / base_len, base_len));
@@ -24,7 +24,7 @@ static int	ft_strlen_b(unsigned long nb, size_t base_len)
 }
 
 //prints a number in a base to standard output
-static ssize_t	ft_putnbr_b(unsigned long nb, const char *base, size_t base_len)
+static ssize_t	ft_putnbr_b(t_ull nb, const char *base, size_t base_len)
 {
 	if ((nb / base_len) > 0)
 		if (ft_putnbr_b(nb / base_len, base, base_len) < 0)
@@ -35,7 +35,7 @@ static ssize_t	ft_putnbr_b(unsigned long nb, const char *base, size_t base_len)
 //calculates size of the string the extra stuff :
 //the 0x for base 16 conversions
 //and the eventual sign
-static int	ft_strlen_fluff(unsigned long nb,
+static int	ft_strlen_fluff(t_ull nb,
 	int base_len, int pws[3], t_flags flags)
 {
 	int	size;
@@ -51,7 +51,7 @@ static int	ft_strlen_fluff(unsigned long nb,
 
 //returns the length a number should take
 //basically strlen_b with a special case for ) on precision 0
-static int	ft_strlen_base(unsigned long nb, int base_len, int precision)
+static int	ft_strlen_base(t_ull nb, int base_len, int precision)
 {
 	if (precision == 0 && nb == 0)
 		return (0);
@@ -64,7 +64,7 @@ static int	ft_strlen_base(unsigned long nb, int base_len, int precision)
 //hacky but eh
 //to print unsigned make sure to unset the + flag
 ssize_t	ft_printfnum(t_flags flags,
-		int pws[3], unsigned long number, const char *base)
+		int pws[3], t_ull number, const char *base)
 {
 	ssize_t	digits;
 	int		base_len;
