@@ -61,16 +61,27 @@ ssize_t	advance_str(const char **str, size_t amount)
 	return (amount);
 }
 
+static size_t	reset_fullness(size_t *fulness)
+{
+	size_t	temp;
+
+	temp = *fulness;
+	*fulness = 0;
+	return (temp);
+}
+
 ssize_t	b_write(int no_flush, const void *mem, size_t n)
 {
 	static char		buffer[1024];
 	static size_t	fullness;
 
 	if (!no_flush)
-		return (write(1, buffer, fullness));
+	{
+		return (write(1, buffer, reset_fullness(&fullness)));
+	}
 	if (n >= 1024 - fullness)
 	{
-		if (write(1, &buffer, fullness) < 0)
+		if (write(1, &buffer, reset_fullness(&fullness)) < 0)
 			return (-1);
 		return (write(1, mem, n));
 	}
