@@ -63,7 +63,7 @@ static int	parse_and_print(const char **format, va_list *ap,
 	if (flags & FLAG_FIELD_WIDTH)
 	{
 		s = *format;
-		while (!ft_isdigit(*s) && *s != '0')
+		while (!ft_isdigit(*s) || *s == '0')
 			s++;
 		field_width = ft_atoi(s);
 	}
