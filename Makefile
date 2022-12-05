@@ -28,8 +28,6 @@ CFLAGS				=	-Wall -Wextra -Werror
 
 all: $(NAME)
 
-bonus: all
-
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
