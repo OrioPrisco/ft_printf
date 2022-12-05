@@ -20,23 +20,17 @@ SRC					=	parse.c\
 						ft_printfpercent.c
 SRC_FOLDER			=	srcs/
 HEADERS_FOLDER		=	includes/\
-						libft/
+						../includes/ #path to libft.h
 OBJS				=	$(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
 OBJ_FOLDER			=	objs/
 CC					=	cc
 CFLAGS				=	-Wall -Wextra -Werror
-LIBFT_PATH			=	libft/
-LIBFT				=	$(LIBFT_PATH)libft.a
 
 all: $(NAME)
 
 bonus: all
 
-$(LIBFT):
-	make -C $(LIBFT_PATH)
-
-$(NAME): $(OBJS) $(LIBFT)
-	cp $(LIBFT) $(NAME)
+$(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
 $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
@@ -44,11 +38,9 @@ $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
 
 clean:
 	rm -f $(OBJS)
-	make -C $(LIBFT_PATH) clean
 
 fclean: clean
 	rm -f $(NAME) $(LIBFT)
-	make -C $(LIBFT_PATH) fclean
 
 re: fclean all
 
