@@ -32,13 +32,13 @@ $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
 $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
-	$(CC) -c -fPIC $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) $< -o $@
+	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) $< -o $@
 
 clean:
 	rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME) $(LIBFT)
+	rm -f $(NAME)
 
 re: fclean all
 
