@@ -6,7 +6,7 @@
 #    By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/23 15:27:59 by OrioPrisc         #+#    #+#              #
-#    Updated: 2023/04/12 16:53:10 by OrioPrisc        ###   ########.fr        #
+#    Updated: 2023/04/12 17:21:01 by OrioPrisc        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRC					=	parse.c\
 						ft_printfstr.c\
 						ft_printfnum.c\
 						ft_printfnums.c\
+						ft_printfnums2.c\
 						ft_printfpercent.c
 SRC_FOLDER			=	srcs/
 HEADERS_FOLDER		=	includes/\
@@ -26,7 +27,7 @@ COMMANDS			=	$(patsubst %.c,$(OBJ_FOLDER)%.cc,$(SRC))
 
 OBJ_FOLDER			=	objs/
 CC					=	cc
-CFLAGS				=	-Wall -Wextra -Werror
+CFLAGS				=	-Wall -Wextra -Werror -fPIC
 
 all: $(NAME) compile_commands.json
 
