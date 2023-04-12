@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:58:34 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/11/15 16:05:40 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/04/12 17:10:53 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 //. has to be first
 # define FLAGS ".0 #+-"
 # define FLAGS_NUM ". #+-0123456789"
-# define CONVERSIONS "cspdiuxX%"
+# define CONVERSIONS "cspdiuxX%U"
 
 typedef enum e_flags
 {
@@ -52,5 +52,6 @@ ssize_t	ft_printfint(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfuint(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfhex(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfhexup(t_flags flags, int precision, int width, va_list *ap);
+ssize_t	ft_printfsize_t(t_flags flags, int precision, int width, va_list *ap);
 ssize_t	ft_printfnum(t_flags f, int pws[3], t_ull n, const char *b);
 #endif

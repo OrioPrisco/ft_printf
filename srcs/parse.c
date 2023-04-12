@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:49:30 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/11/15 16:10:49 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/04/12 17:10:40 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static ssize_t (*const	g_print_funcs[])(t_flags, int, int, va_list*) = {
 	&ft_printfuint,
 	&ft_printfhex,
 	&ft_printfhexup,
-	&ft_printfpercent
+	&ft_printfpercent,
+	&ft_printfsize_t,
 };
 
 int	ft_printf(const char *format, ...)
