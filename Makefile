@@ -6,7 +6,7 @@
 #    By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/23 15:27:59 by OrioPrisc         #+#    #+#              #
-#    Updated: 2022/11/15 15:32:57 by OrioPrisc        ###   ########.fr        #
+#    Updated: 2023/04/12 16:53:10 by OrioPrisc        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,23 +22,35 @@ SRC_FOLDER			=	srcs/
 HEADERS_FOLDER		=	includes/\
 						../includes/ #path to libft.h
 OBJS				=	$(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
+COMMANDS			=	$(patsubst %.c,$(OBJ_FOLDER)%.cc,$(SRC))
+
 OBJ_FOLDER			=	objs/
 CC					=	cc
 CFLAGS				=	-Wall -Wextra -Werror
 
-all: $(NAME)
+all: $(NAME) compile_commands.json
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-$(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
-	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) $< -o $@
+COMP_COMMAND = $(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) $< -o $@
+
+CONCAT = awk 'FNR==1 && NR!=1 {print ","}{print}'
+
+$(OBJ_FOLDER)%.o $(OBJ_FOLDER)%.cc: $(SRC_FOLDER)%.c Makefile
+	$(COMP_COMMAND)
+	printf '{\n\t"directory" : "$(shell pwd)",\n\t"command" : "$(COMP_COMMAND)",\n\t"file" : "$<"\n}' > $(OBJ_FOLDER)$*.cc
+
+compile_commands.json : $(COMMANDS) Makefile
+	echo "[" > compile_commands.json
+	$(CONCAT) $(COMMANDS) >> compile_commands.json
+	echo "]" >> compile_commands.json
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(COMMANDS)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) compile_commands.json
 
 re: fclean all
 
