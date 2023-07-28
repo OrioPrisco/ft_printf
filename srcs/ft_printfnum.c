@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 10:38:51 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 13:59:55 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 14:16:08 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,27 @@ static int	ft_strlen_b(t_ull nb, size_t base_len)
 }
 
 //prints a number in a base to standard output
-static ssize_t	ft_putnbr_b(t_ull nb, const char *base, size_t base_len)
+static ssize_t	ft_putnbr_b(t_ull nb, const char *base, size_t base_len, int fd)
 {
 	if ((nb / base_len) > 0)
-		if (ft_putnbr_b(nb / base_len, base, base_len) < 0)
+		if (ft_putnbr_b(nb / base_len, base, base_len, fd) < 0)
 			return (-1);
-	return (b_write(1, &base[nb % base_len], 1));
+	return (b_write(fd, &base[nb % base_len], 1));
 }
 
 //calculates size of the string the extra stuff :
 //the 0x for base 16 conversions
 //and the eventual sign
 static int	ft_strlen_fluff(t_ull nb,
-	int base_len, int pws[3], t_flags flags)
+	int base_len, const t_format *format)
 {
 	int	size;
 
 	size = 0;
-	if (pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
+	if (format->sign || (format->flags & (FLAG_PLUS | FLAG_SPACE)))
 		++size;
-	if (pws[0] > 0 || nb != 0)
-		if ((flags & FLAG_HASH) && base_len == 16 && nb != 0)
+	if (format->precision > 0 || nb != 0)
+		if ((format->flags & FLAG_HASH) && base_len == 16 && nb != 0)
 			size += 2;
 	return (size);
 }
@@ -63,8 +63,8 @@ static int	ft_strlen_base(t_ull nb, int base_len, int precision)
 //base 16 need to have the 0x/0X after the first \0
 //hacky but eh
 //to print unsigned make sure to unset the + flag
-ssize_t	ft_printfnum(t_flags flags,
-		int pws[3], t_ull number, const char *base)
+ssize_t	ft_printfnum(const t_format *format,
+	t_ull number, const char *base)
 {
 	ssize_t	digits;
 	int		base_len;
@@ -72,23 +72,23 @@ ssize_t	ft_printfnum(t_flags flags,
 	int		width;
 
 	base_len = ft_strlen(base);
-	digits = ft_strlen_base(number, base_len, pws[0]);
-	precision = ft_maxint(pws[0], digits);
-	width = precision + ft_strlen_fluff(number, base_len, pws, flags);
-	if ((!(flags & (FLAG_MINUS | FLAG_ZERO)) && pws[1] > width
-			&& ft_pad(1, ' ', pws[1] - width) < 0)
-		|| ((pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
-			&& b_write(1, &" +--"[pws[2] * 2 + (!!(flags & FLAG_PLUS))], 1) < 0)
-		|| (number && base_len == 16 && flags & FLAG_HASH
-			&& b_write(1, &base[17], 2) < 0)
-		|| ((flags & FLAG_ZERO && pws[1] > width)
-			&& ft_pad(1, '0', pws[1] - width) < 0)
+	digits = ft_strlen_base(number, base_len, format->precision);
+	precision = ft_maxint(format->precision, digits);
+	width = precision + ft_strlen_fluff(number, base_len, format);
+	if ((!(format->flags & (FLAG_MINUS | FLAG_ZERO)) && format->width > width
+			&& ft_pad(format->fd, ' ', format->width - width) < 0)
+		|| ((format->sign || (format->flags & (FLAG_PLUS | FLAG_SPACE)))
+			&& b_write(format->fd, &" +--"[format->sign * 2 + (!!(format->flags & FLAG_PLUS))], 1) < 0)
+		|| (number && base_len == 16 && format->flags & FLAG_HASH
+			&& b_write(format->fd, &base[17], 2) < 0)
+		|| ((format->flags & FLAG_ZERO && format->width > width)
+			&& ft_pad(format->fd, '0', format->width - width) < 0)
 		|| (precision > digits
-			&& ft_pad(1, '0', precision - digits) < 0)
-		|| (!(pws[0] == 0 && number == 0)
-			&& (ft_putnbr_b(number, base, base_len) < 0))
-		|| (flags & FLAG_MINUS && pws[1] > width
-			&& ft_pad(1, ' ', pws[1] - width) < 0))
+			&& ft_pad(format->fd, '0', precision - digits) < 0)
+		|| (!(format->precision == 0 && number == 0)
+			&& (ft_putnbr_b(number, base, base_len, format->fd) < 0))
+		|| (format->flags & FLAG_MINUS && format->width > width
+			&& ft_pad(format->fd, ' ', format->width - width) < 0))
 		return (-1);
-	return (ft_maxint(pws[1], width));
+	return (ft_maxint(format->width, width));
 }

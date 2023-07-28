@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 16:42:25 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 13:51:29 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 14:16:32 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ ssize_t	ft_printfchar(t_format *format, va_list *ap)
 	if (format->width > 1 && !(format->flags & FLAG_MINUS))
 		if (ft_pad(format->fd, ' ', format->width - 1) < 0)
 			return (-1);
-	if (b_write(1, &c, 1) < 0)
+	if (b_write(format->fd, &c, 1) < 0)
 		return (-1);
 	if (format->width > 1 && (format->flags & FLAG_MINUS))
 		if (ft_pad(format->fd, ' ', format->width - 1) < 0)
