@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 10:38:51 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 14:16:08 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 18:10:19 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,23 @@ ssize_t	ft_printfnum(const t_format *format,
 {
 	ssize_t	digits;
 	int		base_len;
-	int		precision;
+	int		prec;
 	int		width;
 
 	base_len = ft_strlen(base);
 	digits = ft_strlen_base(number, base_len, format->precision);
-	precision = ft_maxint(format->precision, digits);
-	width = precision + ft_strlen_fluff(number, base_len, format);
+	prec = ft_maxint(format->precision, digits);
+	width = prec + ft_strlen_fluff(number, base_len, format);
 	if ((!(format->flags & (FLAG_MINUS | FLAG_ZERO)) && format->width > width
 			&& ft_pad(format->fd, ' ', format->width - width) < 0)
 		|| ((format->sign || (format->flags & (FLAG_PLUS | FLAG_SPACE)))
-			&& b_write(format->fd, &" +--"[format->sign * 2 + (!!(format->flags & FLAG_PLUS))], 1) < 0)
+			&& b_write(format->fd, &" +--"[format->sign * 2
+					+ (!!(format->flags & FLAG_PLUS))], 1) < 0)
 		|| (number && base_len == 16 && format->flags & FLAG_HASH
 			&& b_write(format->fd, &base[17], 2) < 0)
 		|| ((format->flags & FLAG_ZERO && format->width > width)
 			&& ft_pad(format->fd, '0', format->width - width) < 0)
-		|| (precision > digits
-			&& ft_pad(format->fd, '0', precision - digits) < 0)
+		|| (prec > digits && ft_pad(format->fd, '0', prec - digits) < 0)
 		|| (!(format->precision == 0 && number == 0)
 			&& (ft_putnbr_b(number, base, base_len, format->fd) < 0))
 		|| (format->flags & FLAG_MINUS && format->width > width
