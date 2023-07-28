@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:49:30 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 13:37:29 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 13:46:04 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static int	parse_and_print(const char **format, va_list *ap,
 // -1 on failure
 // bytes written
 static int	check_format_and_parse(const char **format, size_t n, va_list *ap)
+// n is number of bytes in format
 {
 	size_t	i;
 	t_flags	flags;
