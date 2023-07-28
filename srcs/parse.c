@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:49:30 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 13:46:04 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 18:14:54 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,27 @@ int	ft_printf(const char *format, ...)
 	while (*format)
 	{
 		bytes_written = find_and_parse(STDOUT_FILENO, &format, &ap);
+		if (bytes_written < 0)
+			return (-1);
+		total_bytes += bytes_written;
+	}
+	va_end(ap);
+	if (b_write(FLUSH_BUFFER, NULL, 0) < 0)
+		return (-1);
+	return (total_bytes);
+}
+
+int	ft_dprintf(int fd, const char *format, ...)
+{
+	va_list	ap;
+	ssize_t	bytes_written;
+	ssize_t	total_bytes;
+
+	total_bytes = 0;
+	va_start(ap, format);
+	while (*format)
+	{
+		bytes_written = find_and_parse(fd, &format, &ap);
 		if (bytes_written < 0)
 			return (-1);
 		total_bytes += bytes_written;

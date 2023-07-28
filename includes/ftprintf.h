@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:58:34 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 14:10:16 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 18:14:28 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_format {
 
 // not thread safe
 int		ft_printf(const char *s, ...);
+int		ft_dprintf(int fd, const char *s, ...);
 
 //utils
 ssize_t	advance_str(const char **str, size_t amount);
