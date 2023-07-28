@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:49:30 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 13:33:18 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 13:37:29 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ static int	check_format_and_parse(const char **format, size_t n, va_list *ap)
 		i++;
 	if (i < n && (*format)[i] == '.')
 		flags |= char_to_flag((*format)[i++]);
-	while ((flags & FLAG_PRECISION) && i < n && ft_isdigit((*format)[i]))
-			i++;
+	if (flags & FLAG_PRECISION)
+		while (i < n && ft_isdigit((*format_str)[i]))
+				i++;
 	if (!ft_strchr(CONVERSIONS, (*format)[i]))
 	{
 		if (b_write(1, *format, i) < 0)
