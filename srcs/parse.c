@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:49:30 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/04/12 17:10:40 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 13:33:18 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,16 @@ static int	check_format_and_parse(const char **format, size_t n, va_list *ap)
 
 	flags = FLAG_NONE;
 	i = 1;
-	if (i < n)
-	{
-		while (i < n && ft_strchr(&FLAGS[1], (*format)[i]))
-			flags |= char_to_flag((*format)[i++]);
-		if (i < n && ft_isdigit((*format)[i]))
-			flags |= FLAG_FIELD_WIDTH;
-		while (i < n && ft_isdigit((*format)[i]))
+	while (i < n && ft_strchr(&FLAGS[1], (*format)[i]))
+		flags |= char_to_flag((*format)[i++]);
+	if (i < n && ft_isdigit((*format)[i]))
+		flags |= FLAG_FIELD_WIDTH;
+	while (i < n && ft_isdigit((*format)[i]))
+		i++;
+	if (i < n && (*format)[i] == '.')
+		flags |= char_to_flag((*format)[i++]);
+	while ((flags & FLAG_PRECISION) && i < n && ft_isdigit((*format)[i]))
 			i++;
-		if (i < n && (*format)[i] == '.')
-			flags |= char_to_flag((*format)[i++]);
-		while ((flags & FLAG_PRECISION) && i < n && ft_isdigit((*format)[i]))
-				i++;
-	}
 	if (!ft_strchr(CONVERSIONS, (*format)[i]))
 	{
 		if (b_write(1, *format, i) < 0)
