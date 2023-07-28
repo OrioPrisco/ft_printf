@@ -3,4 +3,5 @@
 *.a
 *.o
 *.cc
+*.d
 compile_commands.json

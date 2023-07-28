@@ -6,7 +6,7 @@
 #    By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/23 15:27:59 by OrioPrisc         #+#    #+#              #
-#    Updated: 2023/04/17 14:51:37 by OrioPrisc        ###   ########.fr        #
+#    Updated: 2023/07/28 14:07:07 by OrioPrisc        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,19 +22,23 @@ SRC					=	parse.c\
 SRC_FOLDER			=	srcs/
 HEADERS_FOLDER		=	includes/\
 						../includes/ #path to libft.h
-OBJS				=	$(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
-COMMANDS			=	$(patsubst %.c,$(OBJ_FOLDER)%.cc,$(SRC))
 
 OBJ_FOLDER			=	objs/
 CC					=	cc
 CFLAGS				=	-Wall -Wextra -Werror -fPIC
 
+OBJS				=	$(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
+COMMANDS			=	$(patsubst %.c,$(OBJ_FOLDER)%.cc,$(SRC))
+DEPENDS				:=	$(patsubst %.c,$(OBJ_FOLDER)%.d,$(SRC))
+
 all: $(NAME) compile_commands.json
+
+-include $(DEPENDS)
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-COMP_COMMAND = $(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) $< -o $@
+COMP_COMMAND = $(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) -MMD -MP $< -o $@
 
 CONCAT = awk 'FNR==1 && NR!=1 {print ","}{print}'
 
@@ -49,7 +53,7 @@ compile_commands.json : $(COMMANDS) Makefile
 	@echo "]" >> compile_commands.json
 
 clean:
-	rm -f $(OBJS) $(COMMANDS)
+	rm -f $(OBJS) $(COMMANDS) $(DEPENDS)
 
 fclean: clean
 	rm -f $(NAME) compile_commands.json
