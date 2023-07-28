@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:58:34 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 18:14:28 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/29 00:50:01 by OrioPrisco       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # define FLAGS ".0 #+-"
 # define FLAGS_NUM ". #+-0123456789"
 # define CONVERSIONS "cspdiuxX%U"
-# define FLUSH_BUFFER -1
 
 typedef enum e_flags
 {
@@ -56,7 +55,7 @@ t_flags	char_to_flag(char c);
 // not thread safe
 ssize_t	ft_pad(int fd, char c, ssize_t repeat);
 // not thread safe
-// if fd is negative, buffer gets flushed
+// if fd is negative, buffer gets flushed to -fd
 ssize_t	b_write(int fd, const void *mem, size_t n);
 
 //print functions

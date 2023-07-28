@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 16:49:26 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 18:23:45 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/29 00:49:13 by OrioPrisco       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ ssize_t	b_write(int fd, const void *mem, size_t n)
 	static char		buffer[1024];
 	static size_t	fullness;
 
-	if (fd == FLUSH_BUFFER)
+	if (fd < 0)
 	{
-		return (write(fd, buffer, reset_fullness(&fullness)));
+		return (write(-fd, buffer, reset_fullness(&fullness)));
 	}
 	if (n >= 1024 - fullness)
 	{

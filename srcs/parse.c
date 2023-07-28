@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:49:30 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/07/28 18:14:54 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/29 00:49:37 by OrioPrisco       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_printf(const char *format, ...)
 		total_bytes += bytes_written;
 	}
 	va_end(ap);
-	if (b_write(FLUSH_BUFFER, NULL, 0) < 0)
+	if (b_write(-STDOUT_FILENO, NULL, 0) < 0)
 		return (-1);
 	return (total_bytes);
 }
@@ -67,7 +67,7 @@ int	ft_dprintf(int fd, const char *format, ...)
 		total_bytes += bytes_written;
 	}
 	va_end(ap);
-	if (b_write(FLUSH_BUFFER, NULL, 0) < 0)
+	if (b_write(-fd, NULL, 0) < 0)
 		return (-1);
 	return (total_bytes);
 }
