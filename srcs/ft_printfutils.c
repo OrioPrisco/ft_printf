@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 16:49:26 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/11/17 18:36:00 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 13:56:15 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 //returns -1 on failure
 //or bytes written
-ssize_t	ft_pad(char c, ssize_t repeat)
+ssize_t	ft_pad(int fd, char c, ssize_t repeat)
 {
 	char		buffer[1024];
 	ssize_t		total_bytes;
@@ -24,12 +24,12 @@ ssize_t	ft_pad(char c, ssize_t repeat)
 	total_bytes = repeat;
 	while (repeat > 1024)
 	{
-		if (b_write(1, ft_memset(buffer, c, 1024), 1024) != 1024)
+		if (b_write(fd, ft_memset(buffer, c, 1024), 1024) != 1024)
 			return (-1);
 		repeat -= 1024;
 	}
 	if (repeat)
-		if (b_write(1, ft_memset(buffer, c, 1024), repeat) != repeat)
+		if (b_write(fd, ft_memset(buffer, c, 1024), repeat) != repeat)
 			return (-1);
 	return (total_bytes);
 }
@@ -70,12 +70,12 @@ static size_t	reset_fullness(size_t *fulness)
 	return (temp);
 }
 
-ssize_t	b_write(int no_flush, const void *mem, size_t n)
+ssize_t	b_write(int fd, const void *mem, size_t n)
 {
 	static char		buffer[1024];
 	static size_t	fullness;
 
-	if (!no_flush)
+	if (fd == FLUSH_BUFFER)
 	{
 		return (write(1, buffer, reset_fullness(&fullness)));
 	}

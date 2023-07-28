@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 10:38:51 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/11/19 15:24:32 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 13:59:55 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,19 @@ ssize_t	ft_printfnum(t_flags flags,
 	precision = ft_maxint(pws[0], digits);
 	width = precision + ft_strlen_fluff(number, base_len, pws, flags);
 	if ((!(flags & (FLAG_MINUS | FLAG_ZERO)) && pws[1] > width
-			&& ft_pad(' ', pws[1] - width) < 0)
+			&& ft_pad(1, ' ', pws[1] - width) < 0)
 		|| ((pws[2] || (flags & (FLAG_PLUS | FLAG_SPACE)))
 			&& b_write(1, &" +--"[pws[2] * 2 + (!!(flags & FLAG_PLUS))], 1) < 0)
 		|| (number && base_len == 16 && flags & FLAG_HASH
 			&& b_write(1, &base[17], 2) < 0)
 		|| ((flags & FLAG_ZERO && pws[1] > width)
-			&& ft_pad('0', pws[1] - width) < 0)
+			&& ft_pad(1, '0', pws[1] - width) < 0)
 		|| (precision > digits
-			&& ft_pad('0', precision - digits) < 0)
+			&& ft_pad(1, '0', precision - digits) < 0)
 		|| (!(pws[0] == 0 && number == 0)
 			&& (ft_putnbr_b(number, base, base_len) < 0))
 		|| (flags & FLAG_MINUS && pws[1] > width
-			&& ft_pad(' ', pws[1] - width) < 0))
+			&& ft_pad(1, ' ', pws[1] - width) < 0))
 		return (-1);
 	return (ft_maxint(pws[1], width));
 }

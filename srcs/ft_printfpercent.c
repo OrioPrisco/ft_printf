@@ -6,19 +6,16 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 11:12:04 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/11/22 11:26:18 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 13:53:59 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ftprintf.h>
 
-ssize_t	ft_printfpercent(t_flags f, int p, int w, va_list *a)
+ssize_t	ft_printfpercent(t_format *format, va_list *a)
 {
-	(void)f;
-	(void)p;
-	(void)w;
 	(void)a;
-	if (b_write(1, "%", 1) < 0)
+	if (b_write(format->fd, "%", 1) < 0)
 		return (-1);
 	return (1);
 }

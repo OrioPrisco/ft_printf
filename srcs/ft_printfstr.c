@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 16:42:25 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/11/17 18:35:35 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/07/28 13:55:30 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,25 @@
 #include <stdarg.h>
 #include <libft.h>
 
-ssize_t	ft_printfstr(t_flags flags, int precision, int width, va_list *ap)
+ssize_t	ft_printfstr(t_format *format, va_list *ap)
 {
 	char	*str;
 	ssize_t	len;
 
 	str = va_arg(*ap, char *);
-	if (precision >= 0)
-		len = ft_strnlen(str, precision);
+	if (format->precision >= 0)
+		len = ft_strnlen(str, format->precision);
 	else
 		len = ft_strlen(str);
-	if (!(flags & FLAG_MINUS) && (len < width) && ft_pad(' ', width - len) < 0)
+	if (!(format->flags & FLAG_MINUS) && (len < format->width)
+		&& ft_pad(format->fd, ' ', format->width - len) < 0)
 		return (-1);
-	if (b_write(1, str, len) < 0)
+	if (b_write(format->fd, str, len) < 0)
 		return (-1);
-	if (flags & FLAG_MINUS && (len < width) && ft_pad(' ', width - len) < 0)
+	if (format->flags & FLAG_MINUS && (len < format->width)
+		&& ft_pad(format->fd, ' ', format->width - len) < 0)
 		return (-1);
-	if (len < width)
-		return (width);
+	if (len < format->width)
+		return (format->width);
 	return (len);
 }
